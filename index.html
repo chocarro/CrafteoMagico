@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>El Taller de Crafteo Mágico</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="title">
+    <h1>El Taller de Crafteo Mágico</h1>
+    <p class="subtitle">Arrastra ingredientes desde el inventario a las estaciones y crea objetos mágicos ✨</p>
+  </header>
+
+  <main class="workspace">
+    <!-- INVENTARIO -->
+    <section class="panel inventory" id="inventory">
+      <h2>Inventario</h2>
+      <ul class="items">
+        <!-- Hierro (metal) -->
+        <li class="item" draggable="true" data-type="metal" id="ing-hierro-1">🔩 Hierro</li>
+        <li class="item" draggable="true" data-type="metal" id="ing-hierro-2">🔩 Hierro</li>
+  
+
+        <!-- Madera (wood) -->
+        <li class="item" draggable="true" data-type="wood" id="ing-madera-1">🪵 Madera</li>
+        <li class="item" draggable="true" data-type="wood" id="ing-madera-2">🪵 Madera</li>
+     
+
+        <!-- Pólvora (powder) -->
+       
+        <li class="item" draggable="true" data-type="powder" id="ing-polvora-4">💥 Pólvora</li>
+        <li class="item" draggable="true" data-type="powder" id="ing-polvora-5">💥 Pólvora</li>
+
+        <!-- Piedra (stone) -->
+        <li class="item" draggable="true" data-type="stone" id="ing-piedra-1">🪨 Piedra</li>
+        <li class="item" draggable="true" data-type="stone" id="ing-piedra-2">🪨 Piedra</li>
+   
+      </ul>
+    </section>
+
+    <!-- ESTACIONES -->
+    <section class="panel workstations">
+      <h2>Estaciones de Trabajo</h2>
+      <div class="stations">
+        <div class="station" data-accept="metal" id="forja">
+          <h3>🔨 Forja</h3>
+          <p class="hint">Acepta: <strong>metal</strong></p>
+        </div>
+
+        <div class="station" data-accept="wood" id="carpintero">
+          <h3>🪚 Banco de Carpintero</h3>
+          <p class="hint">Acepta: <strong>wood</strong></p>
+        </div>
+
+        <div class="station advanced" id="alquimia" data-requires="2">
+          <h3>⚗️ Mesa de Alquimia (Avanzada)</h3>
+          <p class="hint">Necesita 2 ingredientes (ej. metal + powder)</p>
+          <div class="slot-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCTOS -->
+    <section class="panel products" id="products">
+      <h2>Almacén de Productos</h2>
+      <ul class="product-list">
+        <li id="prod-lingote">Lingotes de Acero: <span class="count">0</span></li>
+        <li id="prod-flechas">Flechas: <span class="count">0</span></li>
+        <li id="prod-espada">Espada Explosiva: <span class="count">0</span></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="legend">
+    <p>Reglas: la <strong>Forja</strong> acepta metal, el <strong>Banco</strong> acepta madera. La <strong>Mesa de Alquimia</strong> requiere <em>dos</em> ingredientes concretos para crear la <strong>Espada Explosiva</strong> (Hierro + Pólvora).</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
