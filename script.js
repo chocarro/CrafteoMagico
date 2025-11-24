@@ -15,7 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let currentDragType = null;
 
-  // --- Funciones auxiliares ---
+    // --- Funciones auxiliares ---
+    
   const aceptaIngrediente = (station, tipo) =>
     station.id === 'alquimia' || station.dataset.accept === tipo;
 
@@ -29,14 +30,19 @@ document.addEventListener('DOMContentLoaded', () => {
     products[tipo].textContent = counters[tipo];
   };
 
+    // --- Drag de items --- 
+
   const sacudir = (el) => {
     el.animate(
-      [{ transform: 'translateX(-6px)' }, { transform: 'translateX(6px)' }, { transform: 'translateX(0)' }],
+      [
+        { transform: 'translateX(-6px)' },
+        { transform: 'translateX(6px)' },
+        { transform: 'translateX(0)' }
+      ],
       { duration: 300 }
     );
   };
 
-  // --- Drag de items ---
   items.forEach(item => {
     item.addEventListener('dragstart', e => {
       e.dataTransfer.setData('text/plain', item.id);
@@ -51,17 +57,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // --- Drag & Drop en estaciones ---
+  
   stations.forEach(station => {
     station.addEventListener('dragover', e => {
       if (!currentDragType) return;
-
-      const puede = aceptaIngrediente(station, currentDragType);
-      if (puede) e.preventDefault();
-
-      const libre = station.id !== 'alquimia' || alquimiaSlots.length < REQUIRED;
-      station.classList.toggle('accept', puede && libre);
-      station.classList.toggle('reject', !puede || !libre);
+      e.preventDefault(); 
+      station.classList.add('accept');
     });
 
     station.addEventListener('dragleave', () =>
@@ -72,49 +73,85 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       station.classList.remove('accept', 'reject');
 
-      const item = document.getElementById(e.dataTransfer.getData('text/plain'));
-      if (!item || !currentDragType) return;
+      const item = document.getElementById(
+        e.dataTransfer.getData('text/plain')
+      );
+      if (!item) return;
 
       const tipo = currentDragType;
 
-      if (!aceptaIngrediente(station, tipo)) return sacudir(station);
+      item.remove();
 
-      // --- Procesos de estaciones ---
-      switch (station.id) {
-        case 'forja':
-          item.remove();
-          actualizarProducto('lingote');
-          efectoCreacion(station);
-          break;
+     //  Procesos de estaciones
+      if (aceptaIngrediente(station, tipo)) {
+        switch (station.id) {
+          case 'forja':
+            actualizarProducto('lingote');
+            efectoCreacion(station);
+            break;
 
-        case 'carpintero':
-          item.remove();
-          actualizarProducto('flechas');
-          efectoCreacion(station);
-          break;
+          case 'carpintero':
+            actualizarProducto('flechas');
+            efectoCreacion(station);
+            break;
 
-        case 'alquimia':
-          if (alquimiaSlots.length >= REQUIRED) return;
+          case 'alquimia':
+            if (alquimiaSlots.length < REQUIRED) {
+              const slot = document.createElement('div');
+              slot.className = 'slot';
+              slot.textContent = tipo;
+              slotList.appendChild(slot);
 
-          const slot = document.createElement('div');
-          slot.className = 'slot';
-          slot.textContent = item.textContent;
-          slotList.appendChild(slot);
+              alquimiaSlots.push(tipo);
 
-          alquimiaSlots.push(tipo);
-          item.remove();
+              if (alquimiaSlots.length === REQUIRED) {
+                const combo = alquimiaSlots.sort().join('+');
 
-          if (alquimiaSlots.length === REQUIRED) {
-            const combo = alquimiaSlots.sort().join('+');
-            if (combo === 'metal+powder') {
-              actualizarProducto('espada');
-              efectoCreacion(station);
+                if (combo === 'metal+powder') {
+                  actualizarProducto('espada');
+                  efectoCreacion(station);
+                }
+
+                alquimiaSlots.length = 0;
+                slotList.innerHTML = '';
+              }
             }
-            alquimiaSlots.length = 0;
-            slotList.innerHTML = '';
-          }
-          break;
+            break;
+        }
       }
     });
   });
 });
+
+ // Búsqueda de materiales
+document.addEventListener('DOMContentLoaded', () => {
+  const items = document.querySelectorAll('.item');         
+
+  const regexInput = document.getElementById('regexInput');
+  const buscarBtn = document.getElementById('buscarBtn');
+
+  buscarBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const pattern = regexInput.value;
+    let regex;
+
+    try {
+      regex = new RegExp(pattern, 'i');
+    } catch (err) {
+      alert('Expresión regular inválida');
+      return;
+    }
+
+    items.forEach(item => {
+      if (regex.test(item.textContent)) {
+        item.style.display = '';
+        item.classList.add('highlight');
+        setTimeout(() => item.classList.remove('highlight'), 1000);
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  });  
+});
+
+

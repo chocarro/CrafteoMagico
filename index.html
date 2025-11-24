@@ -1,11 +1,13 @@
 <!doctype html>
 <html lang="es">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>El Taller de Crafteo Mágico</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
   <header class="title">
     <h1>El Taller de Crafteo Mágico</h1>
@@ -14,28 +16,40 @@
 
   <main class="workspace">
     <!-- INVENTARIO -->
+     
     <section class="panel inventory" id="inventory">
+
+        <section id="formulario">
+          <form id="buscarBtn">
+              <label for="regexInput">Buscar Materiales </label>
+              <input type="text" id="regexInput" placeholder="Nombre">
+               <input type="text" id="regexInput"placeholder="Tipo">
+              <button id="buscarBtn">Buscar</button>
+          </form>
+      </section>
+
+      
       <h2>Inventario</h2>
       <ul class="items">
         <!-- Hierro (metal) -->
         <li class="item" draggable="true" data-type="metal" id="ing-hierro-1">🔩 Hierro</li>
         <li class="item" draggable="true" data-type="metal" id="ing-hierro-2">🔩 Hierro</li>
-  
+
 
         <!-- Madera (wood) -->
         <li class="item" draggable="true" data-type="wood" id="ing-madera-1">🪵 Madera</li>
         <li class="item" draggable="true" data-type="wood" id="ing-madera-2">🪵 Madera</li>
-     
+
 
         <!-- Pólvora (powder) -->
-       
+
         <li class="item" draggable="true" data-type="powder" id="ing-polvora-4">💥 Pólvora</li>
         <li class="item" draggable="true" data-type="powder" id="ing-polvora-5">💥 Pólvora</li>
 
         <!-- Piedra (stone) -->
         <li class="item" draggable="true" data-type="stone" id="ing-piedra-1">🪨 Piedra</li>
         <li class="item" draggable="true" data-type="stone" id="ing-piedra-2">🪨 Piedra</li>
-   
+
       </ul>
     </section>
 
@@ -73,9 +87,12 @@
   </main>
 
   <footer class="legend">
-    <p>Reglas: la <strong>Forja</strong> acepta metal, el <strong>Banco</strong> acepta madera. La <strong>Mesa de Alquimia</strong> requiere <em>dos</em> ingredientes concretos para crear la <strong>Espada Explosiva</strong> (Hierro + Pólvora).</p>
+    <p>Reglas: la <strong>Forja</strong> acepta metal, el <strong>Banco</strong> acepta madera. La <strong>Mesa de
+        Alquimia</strong> requiere <em>dos</em> ingredientes concretos para crear la <strong>Espada Explosiva</strong>
+      (Hierro + Pólvora).</p>
   </footer>
 
   <script src="script.js"></script>
 </body>
+
 </html>
